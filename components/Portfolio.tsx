@@ -6,17 +6,14 @@ import { projectsData } from './constants';
 // Collage Span Logic: இது கட்டங்களின் அளவை தீர்மானிக்கும் (Bento Layout)
 const getGridSpan = (title: string, index: number): string => {
   const t = title.toLowerCase();
-  
   // Landscape items (Wide)
-  const isLandscape = (t.startsWith('broadcast') || 
-                      t === 'chettinad video 5' ||
-                      ['chettinad 1', 'chettinad 17', 'independent 17'].includes(t));
+  const isLandscape = (t.includes('broadcast') || 
+                      ['chettinad 1', 'chettinad 17', 'video 5', 'independent 17'].includes(t));
 
   // Portrait items (Tall)
-  const isPortrait = (t.startsWith('teakhome') || 
-                     (t.startsWith('chettinad video') && t !== 'chettinad video 5') ||
-                     ['chettinad 2', 'chettinad 6', 'independent 2'].includes(t)) 
-                     && !isLandscape;
+  const isPortrait = (t.includes('teak home') || 
+                     t.startsWith('video') || 
+                     ['chettinad 2', 'chettinad 6', 'independent 2'].includes(t)) && !isLandscape;
 
   // Bento Collage Logic: Staggered featured items
   if ([0, 5, 12, 19, 28, 35, 44, 51].includes(index)) return "md:col-span-2 md:row-span-2";
@@ -34,13 +31,13 @@ const getGridSpan = (title: string, index: number): string => {
 const getRatioClass = (title: string, type: string) => {
     const t = title.toLowerCase();
     
-    // 16:9 for Landscape items
-    if (t.startsWith('broadcast') || t === 'chettinad video 5' || ['chettinad 1', 'chettinad 17', 'independent 17'].includes(t)) {
+    // 16:9 for Broadcast and the single horizontal Chettinad video
+    if (t.includes('broadcast') || (t.startsWith('video') && t.includes('5'))) {
         return 'aspect-video';
     }
     
-    // 9:16 for Portrait items
-    if (t.startsWith('teakhome') || t.startsWith('chettinad video') || ['chettinad 2', 'chettinad 6'].includes(t)) {
+    // 9:16 for Teak Home and other Chettinad videos
+    if (t.includes('teak home') || t.startsWith('video')) {
         return 'aspect-[9/16]';
     }
         
@@ -49,30 +46,35 @@ const getRatioClass = (title: string, type: string) => {
 }
 
 // Helper to map titles to the new folder structure in /public/project-files/
-// Helper to map titles to folders that actually contain images (thumbnails)
-const getImagePath = (title: string, index: number) => {
+const getImagePath = (title: string, type: string) => {
   const t = title.toLowerCase().trim();
+  let slug = t.replace(/\s+/g, '-');
   
-  // Handle Independent projects (routed to folder 04 - 18 images max)
-  if (t.startsWith('independent')) {
-    const numMatch = t.match(/\d+/);
-    const num = numMatch ? parseInt(numMatch[0]) : 1;
-    const safeNum = ((num - 1) % 18) + 1; 
-    return `/project-files/04-independent/independent-${safeNum}.jpg`;
+  // Apply naming conventions provided (e.g. teak home -> teakhome, video -> chettinad-video)
+  if (t.startsWith('teak home')) {
+    slug = t.replace('teak home', 'teakhome').replace(/\s+/g, '-');
+  } else if (t.startsWith('video')) {
+    slug = t.replace('video', 'chettinad-video').replace(/\s+/g, '-');
   }
 
-  // Handle ALL other projects (Chettinad, Video, Teakhome, Broadcast)
-  // These pull thumbnails from the 01-chettinad folder (52 images max)
-  // This prevents 404s since the other folders are "Videos Only"
-  const numMatch = t.match(/\d+/);
-  const num = numMatch ? parseInt(numMatch[0]) : (index + 1);
-  const safeNum = ((num - 1) % 52) + 1;
+  const fileName = `${slug}.jpg`;
   
-  return `/project-files/01-chettinad/chettinad-${safeNum}.jpg`;
+  // Folder mapping based on your new directory structure
+  let projectPath = '';
+  
+  // Correctly routing "Video" titles to the video project folder
+  if (t.startsWith('video')) projectPath = `/project-files/01-chettinad-video/${fileName}`;
+  else if (t.startsWith('chettinad')) projectPath = `/project-files/01-chettinad/${fileName}`;
+  else if (t.startsWith('teak home')) projectPath = `/project-files/02-teakhome/${fileName}`;
+  else if (t.startsWith('broadcast')) projectPath = `/project-files/03-broadcast/${fileName}`;
+  else if (t.startsWith('independent')) projectPath = `/project-files/04-independent/${fileName}`;
+  else projectPath = `/${fileName}`;
+
+  return projectPath;
 };
 
 export default function Portfolio() {
-  const [selectedItem, setSelectedItem] = useState<(typeof projectsData)[0] | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -126,12 +128,12 @@ export default function Portfolio() {
               {/* Image Container with forced Aspect Ratio */}
               <div className={`relative w-full h-full min-h-[150px] overflow-hidden bg-zinc-200 ${getRatioClass(item.title, item.type)}`}>
                 <Image
-                  src={getImagePath(item.title, idx)}
+                  src={getImagePath(item.title, item.type)}
                   alt={item.title}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.05] transition-all duration-1000 ease-out"
-                  priority={idx < 4 || item.title === "Chettinad 2" || item.title === "Chettinad 3"} // Fixes LCP warning for specific images
+                  priority={idx < 4 || item.title === "Chettinad 2" || item.title === "Chettinad 3"} 
                 />
               </div>
 

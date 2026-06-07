@@ -1,6 +1,6 @@
 export const projectsData = [
   // Chettinad Project
-  { title: "Chettinad 1", type: "video", link: "https://drive.google.com/file/d/1E4aV0esAqCvZMNwS_0GCHBVEiTQepxiL/preview" },
+  { title: "Chettinad 1", type: "image", link: "https://drive.google.com/file/d/1E4aV0esAqCvZMNwS_0GCHBVEiTQepxiL/preview" },
   { title: "Chettinad 2", type: "image", link: "https://drive.google.com/file/d/113fSmWtoVohcEnhuYEHJ3mRRrQs5N__7/preview" },
   { title: "Chettinad 3", type: "image", link: "https://drive.google.com/file/d/11gItRnzoDbsQ1obGmdK_GH0u0dZrpByN/preview" },
   { title: "Chettinad 4", type: "image", link: "https://drive.google.com/file/d/12FBHCYQysB4Jzn-PK3voPEFnSPcKs_Ql/preview" },
