@@ -1,17 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'standalone', 
+
   images: {
-    // Next.js 16 default is 4 hours (14400s)
+    unoptimized: true,
     minimumCacheTTL: 14400,
-    // Next.js 16 breaking change: Default is [75]. 
-    // Explicitly define qualities if you need more.
     qualities: [75],
   },
-  // Enable the stable React Compiler for React 19 performance
-  reactCompiler: true,
-  // Next.js 16 stable Partial Prerendering
-  cacheComponents: true,
+
+  // React Compiler-ai experimental-ukku veliye kondu vanthuvitten
+  reactCompiler: true, 
+
+  // Matra experimental features irunthal inge vaiyungal
+  experimental: {
+    // ppr: true, (Oru vela irunthal)
+  },
 };
 
 export default nextConfig;
