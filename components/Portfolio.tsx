@@ -12,20 +12,13 @@ type ProjectItem = {
 export default function Portfolio() {
   const [selectedItem, setSelectedItem] = useState<ProjectItem | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const allItems = useMemo(() => {
     const items: ProjectItem[] = [];
     
-    // 01-chettinad: 52 images
     for (let i = 1; i <= 52; i++) {
       items.push({ type: 'image', src: `/project-files/01-chettinad/chettinad-${i}.jpg`, category: 'Chettinad' });
     }
-    // 02-adchettinad: 5 videos
     for (let i = 1; i <= 5; i++) {
       items.push({ 
         type: 'video', 
@@ -34,15 +27,12 @@ export default function Portfolio() {
         ratio: i === 5 ? 'aspect-video' : 'aspect-[9/16]' 
       });
     }
-    // 03-teakhome: 4 videos
     for (let i = 1; i <= 4; i++) {
       items.push({ type: 'video', src: `/project-files/03-teakhome/teakhome-${i}.mp4`, category: 'Teak Home', ratio: 'aspect-[9/16]' });
     }
-    // 04-broadcast: 2 videos
     for (let i = 1; i <= 2; i++) {
       items.push({ type: 'video', src: `/project-files/04-broadcast/broadcast-${i}.mp4`, category: 'Broadcast', ratio: 'aspect-video' });
     }
-    // 05-independent: 18 images
     for (let i = 1; i <= 18; i++) {
       items.push({ type: 'image', src: `/project-files/05-independent/independent-${i}.jpg`, category: 'Independent' });
     }
@@ -55,13 +45,6 @@ export default function Portfolio() {
   }, [activeCategory, allItems]);
 
   const categories = ['All', 'Chettinad', 'Chettinad Ads', 'Teak Home', 'Broadcast', 'Independent'];
-
-  const getCardClass = (item: ProjectItem) => {
-    const base = "relative break-inside-avoid mb-6 overflow-hidden rounded-[2rem] bg-zinc-100 border border-zinc-200/50 group cursor-pointer hover:shadow-2xl transition-all duration-500";
-    if (item.ratio === 'aspect-[9/16]') return `${base} aspect-[9/16]`;
-    if (item.ratio === 'aspect-video') return `${base} aspect-video`;
-    return `${base} h-auto`;
-  };
 
   return (
     <section id="projects" className="py-32 bg-white text-zinc-900 relative">
@@ -79,9 +62,7 @@ export default function Portfolio() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-8 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-300 ${
-                activeCategory === cat 
-                  ? 'bg-teal-700 text-white shadow-xl shadow-teal-700/30 scale-105' 
-                  : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
+                activeCategory === cat ? 'bg-teal-700 text-white shadow-xl shadow-teal-700/30 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
               }`}
             >
               {cat}
@@ -93,12 +74,23 @@ export default function Portfolio() {
       <div className="relative z-10 mx-auto max-w-7xl px-8">
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
           {filteredItems.map((item, idx) => (
-            <div key={idx} className={getCardClass(item)} onClick={() => setSelectedItem(item)}>
+            <div 
+              key={`${item.src}-${idx}`} 
+              className={`relative break-inside-avoid mb-6 overflow-hidden rounded-[2rem] bg-zinc-100 border border-zinc-200/50 group cursor-pointer hover:shadow-2xl transition-all duration-500 ${item.ratio || 'h-auto'}`}
+              onClick={() => setSelectedItem(item)}
+            >
               {item.type === 'image' ? (
-                <Image src={item.src} alt={item.category} width={800} height={1200} className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out min-h-[150px] bg-zinc-100" />
+                <Image src={item.src} alt={item.category} width={800} height={1200} className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" />
               ) : (
-                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center min-h-[200px]">
-                  <video className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" preload="metadata" muted playsInline loop>
+                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
+                  <video 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
+                    preload="metadata" 
+                    muted 
+                    playsInline 
+                    loop 
+                    autoPlay
+                  >
                     <source src={item.src} type="video/mp4" />
                   </video>
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
