@@ -2,7 +2,12 @@
 export default function Timeline() {
   const experiences = [
     { year: "2025", role: "Graphic Designer & Video Editor", company: "Chettinad Hospital & Research Institute" },
-    { year: "2022-2024", role: "Graphic Designer & Video Editor", company: "Teak Home" },
+    { 
+      year: "2022-2024", 
+      role: "Graphic Designer & Video Editor", 
+      company: "Teak Home",
+      link: "https://www.youtube.com/@teakhome-teakwoodfurniturestor/shorts" 
+    },
     { year: "2016-2022", role: "Video Editor & Designer", company: "Broadcast Media Channels" },
     { year: "2013-2016", role: "Application Developer", company: "Pamz3d Designs India Pvt Ltd" }
   ];
@@ -15,7 +20,20 @@ export default function Timeline() {
           <div key={index} className="relative">
             <div className="absolute -left-[41px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-teal-600 shadow-sm" />
             <h3 className="text-xl font-black tracking-tight mb-1 text-zinc-900">{exp.role}</h3>
-            <p className="text-teal-700 text-sm font-bold uppercase tracking-wider">{exp.year} — {exp.company}</p>
+            <div className="flex flex-wrap items-center gap-x-4">
+              <p className="text-teal-700 text-sm font-bold uppercase tracking-wider">{exp.year} — {exp.company}</p>
+              {exp.link && (
+                <a 
+                  href={exp.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[10px] font-black text-red-600 hover:text-teal-700 transition-colors uppercase tracking-[0.2em]"
+                >
+                  <span className="w-1 h-1 rounded-full bg-red-600" />
+                  View Channel
+                </a>
+              )}
+            </div>
           </div>
         ))}
       </div>

@@ -1,193 +1,176 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { projectsData } from './constants';
 
-// Collage Span Logic: இது கட்டங்களின் அளவை தீர்மானிக்கும் (Bento Layout)
-const getGridSpan = (title: string, index: number): string => {
-  const t = title.toLowerCase();
-  // Landscape items (Wide)
-  const isLandscape = (t.includes('broadcast') || 
-                      ['chettinad 1', 'chettinad 17', 'video 5', 'independent 17'].includes(t));
-
-  // Portrait items (Tall)
-  const isPortrait = (t.includes('teak home') || 
-                     t.startsWith('video') || 
-                     ['chettinad 2', 'chettinad 6', 'independent 2'].includes(t)) && !isLandscape;
-
-  // Bento Collage Logic: Staggered featured items
-  if ([0, 5, 12, 19, 28, 35, 44, 51].includes(index)) return "md:col-span-2 md:row-span-2";
-  
-  // நீளமான கட்டங்கள்
-  if (isLandscape) return "md:col-span-2 row-span-1";
-  
-  // உயரமான கட்டங்கள்
-  if (isPortrait) return "col-span-1 md:row-span-2";
-
-  return "col-span-1 row-span-1";
-};
-
-// Aspect Ratio Helper to prevent black bars inside frames
-const getRatioClass = (title: string, type: string) => {
-    const t = title.toLowerCase();
-    
-    // 16:9 for Broadcast and the single horizontal Chettinad video
-    if (t.includes('broadcast') || (t.startsWith('video') && t.includes('5'))) {
-        return 'aspect-video';
-    }
-    
-    // 9:16 for Teak Home and other Chettinad videos
-    if (t.includes('teak home') || t.startsWith('video')) {
-        return 'aspect-[9/16]';
-    }
-        
-    if (t.includes('independent 2')) return 'aspect-[4/5]';
-    return 'aspect-square';
-}
-
-// Helper to map titles to the new folder structure in /public/project-files/
-const getImagePath = (title: string, type: string) => {
-  const t = title.toLowerCase().trim();
-  let slug = t.replace(/\s+/g, '-');
-  
-  // Apply naming conventions provided (e.g. teak home -> teakhome, video -> chettinad-video)
-  if (t.startsWith('teak home')) {
-    slug = t.replace('teak home', 'teakhome').replace(/\s+/g, '-');
-  } else if (t.startsWith('video')) {
-    slug = t.replace('video', 'chettinad-video').replace(/\s+/g, '-');
-  }
-
-  const fileName = `${slug}.jpg`;
-  
-  // Folder mapping based on your new directory structure
-  let projectPath = '';
-  
-  // Correctly routing "Video" titles to the video project folder
-  if (t.startsWith('video')) projectPath = `/project-files/01-chettinad-video/${fileName}`;
-  else if (t.startsWith('chettinad')) projectPath = `/project-files/01-chettinad/${fileName}`;
-  else if (t.startsWith('teak home')) projectPath = `/project-files/02-teakhome/${fileName}`;
-  else if (t.startsWith('broadcast')) projectPath = `/project-files/03-broadcast/${fileName}`;
-  else if (t.startsWith('independent')) projectPath = `/project-files/04-independent/${fileName}`;
-  else projectPath = `/${fileName}`;
-
-  return projectPath;
+type ProjectItem = {
+  type: 'image' | 'video';
+  src: string;
+  category: string;
+  ratio?: string;
 };
 
 export default function Portfolio() {
-  const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [selectedItem, setSelectedItem] = useState<ProjectItem | null>(null);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("fade-in");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const cards = sectionRef.current?.querySelectorAll(".project-card");
-    cards?.forEach((card) => {
-      observer.observe(card);
-    });
-
-    return () => observer.disconnect();
+    setIsClient(true);
   }, []);
 
+  // கோப்புகளை மெமரி செய்ய useMemo பயன்படுத்தப்படுகிறது (Performance)
+  const allItems = useMemo(() => {
+    const items: ProjectItem[] = [];
+    
+    // 01-chettinad: 52 images
+    for (let i = 1; i <= 52; i++) {
+      items.push({ type: 'image', src: `/project-files/01-chettinad/chettinad-${i}.jpg`, category: 'Chettinad' });
+    }
+    // 02-adchettinad: 5 videos (4 Vertical, 1 Horizontal)
+    for (let i = 1; i <= 5; i++) {
+      items.push({ 
+        type: 'video', 
+        src: `/project-files/02-adchettinad/adchettinad-${i}.mp4`, 
+        category: 'Chettinad Ads',
+        ratio: i === 5 ? 'aspect-video' : 'aspect-[9/16]' 
+      });
+    }
+    // 03-teakhome: 4 videos (Vertical)
+    for (let i = 1; i <= 4; i++) {
+      items.push({ type: 'video', src: `/project-files/03-teakhome/teakhome-${i}.mp4`, category: 'Teak Home', ratio: 'aspect-[9/16]' });
+    }
+    // 04-broadcast: 2 videos (Horizontal)
+    for (let i = 1; i <= 2; i++) {
+      items.push({ type: 'video', src: `/project-files/04-broadcast/broadcast-${i}.mp4`, category: 'Broadcast', ratio: 'aspect-video' });
+    }
+    // 05-independent: 18 images
+    for (let i = 1; i <= 18; i++) {
+      items.push({ type: 'image', src: `/project-files/05-independent/independent-${i}.jpg`, category: 'Independent' });
+    }
+    return items;
+  }, []);
+
+  // Filter items based on active category
+  const filteredItems = useMemo(() => {
+    if (activeCategory === 'All') return allItems;
+    return allItems.filter(item => item.category === activeCategory);
+  }, [activeCategory, allItems]);
+
+  const categories = ['All', 'Chettinad', 'Chettinad Ads', 'Teak Home', 'Broadcast', 'Independent'];
+
+  // கிரிட் லேஅவுட் சிதையாமல் இருக்க கிளாஸ் மேலாண்மை
+  const getCardClass = (item: ProjectItem) => {
+    const base = "relative break-inside-avoid mb-6 overflow-hidden rounded-[2rem] bg-zinc-100 border border-zinc-200/50 group cursor-pointer hover:shadow-2xl transition-all duration-500";
+    
+    if (item.ratio === 'aspect-[9/16]') return `${base} aspect-[9/16]`;
+    if (item.ratio === 'aspect-video') return `${base} aspect-video`;
+    
+    return `${base} h-auto`; // Images will take their own height
+  };
+
   return (
-    <section ref={sectionRef} id="projects" className="py-32 bg-white text-zinc-900 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[120px]" />
-      </div>
+    <section id="projects" className="py-32 bg-white text-zinc-900 relative">
+      <div className="relative z-10 mx-auto max-w-7xl px-8 flex flex-col items-center text-center">
+        <div className="mb-20">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-teal-700 mb-4 font-bold">Portfolio</p>
+          <h2 className="text-5xl md:text-7xl font-black tracking-tight text-zinc-900">
+            Selected Work<span className="text-teal-600">.</span>
+          </h2>
+        </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-8 mb-28">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-teal-700 mb-4 font-bold">Portfolio</p>
-        <h2 className="text-5xl md:text-7xl font-black tracking-tight text-zinc-900">
-          Selected Work<span className="text-teal-600">.</span>
-        </h2>
-      </div>
-
-      {/* Columns-based Masonry - No wasted space */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 grid-flow-dense">
-          {projectsData.map((item, idx) => (
+        {/* Category Filter UI */}
+        <div className="flex flex-wrap justify-center gap-4 mb-16">
+          {categories.map((cat) => (
             <button
-              key={idx}
-              type="button"
-              onClick={() => setSelectedItem(item)}
-              className={`project-card group relative overflow-hidden rounded-[2rem] bg-zinc-100 border border-zinc-200/50 active:scale-[0.98] will-change-transform ${getGridSpan(item.title, idx)}`}
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-8 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-300 ${
+                activeCategory === cat 
+                  ? 'bg-teal-700 text-white shadow-xl shadow-teal-700/30 scale-105' 
+                  : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
+              }`}
             >
-              {/* Gradient overlay to soften loading borders */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-[5] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Image Container with forced Aspect Ratio */}
-              <div className={`relative w-full h-full min-h-[150px] overflow-hidden bg-zinc-200 ${getRatioClass(item.title, item.type)}`}>
-                <Image
-                  src={getImagePath(item.title, item.type)}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.05] transition-all duration-1000 ease-out"
-                  priority={idx < 4 || item.title === "Chettinad 2" || item.title === "Chettinad 3"} 
-                />
-              </div>
-
-              {/* Hover shadow */}
-              {/* Content overlay - appears on hover */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[10] flex flex-col justify-end p-6">
-                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-teal-400/20 border border-teal-400/50 backdrop-blur-sm px-3 py-1.5 text-[10px] uppercase tracking-[0.3em] text-teal-100 font-bold mb-3">
-                    <span className="w-1.5 h-1.5 bg-teal-400 rounded-full" />
-                    {item.type}
-                  </span>
-                  <h3 className="text-sm md:text-base font-bold text-white leading-snug">
-                    {item.title}
-                  </h3>
-                </div>
-              </div>
+              {cat}
             </button>
+          ))}
+        </div>
+
+        {/* Official Channel Link for Teak Home */}
+        {activeCategory === 'Teak Home' && (
+          <div className="mb-16 animate-in fade-in slide-in-from-bottom-2 duration-700 flex justify-center">
+            <a 
+              href="https://www.youtube.com/@teakhome-teakwoodfurniturestor/shorts" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-teal-500/30 hover:bg-white transition-all group shadow-sm"
+            >
+              <svg className="w-5 h-5 text-red-600 fill-current" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+              <span className="text-[10px] uppercase tracking-[0.2em] font-black text-zinc-500 group-hover:text-teal-700">View Official YouTube Channel</span>
+            </a>
+          </div>
+        )}
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-8">
+        {/* Masonry Collage Grid */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+          {filteredItems.map((item, idx) => (
+            <div 
+              key={idx} 
+              className={getCardClass(item)}
+              onClick={() => setSelectedItem(item)}
+            >
+              {item.type === 'image' ? (
+                <Image
+                  src={item.src}
+                  alt={item.category}
+                  width={800}
+                  height={1200}
+                  className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out min-h-[150px] bg-zinc-100"
+                />
+              ) : (
+                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center min-h-[200px]">
+                  <video 
+                    src={item.src} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                    preload="metadata"
+                    muted
+                    playsInline
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform pointer-events-none">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform">
+                      <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Overlay on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                <p className="text-white text-[10px] font-bold uppercase tracking-widest">{item.category}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Modal - Full View */}
+      {/* Full View Modal */}
       {selectedItem && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/98 p-4 backdrop-blur-md" 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 p-4 md:p-10 backdrop-blur-md"
           onClick={() => setSelectedItem(null)}
         >
-          <button
-            className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-[60]"
-            onClick={() => setSelectedItem(null)}
-            aria-label="Close modal"
-          >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <button className="absolute top-8 right-8 text-white hover:text-teal-400 transition-colors z-[110]">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
-          <div 
-            className="w-full max-w-5xl aspect-video bg-black shadow-2xl rounded-2xl overflow-hidden ring-1 ring-white/10" 
-            onClick={(e) => e.stopPropagation()}
-          >
-            {selectedItem.type === 'video' && selectedItem.link.startsWith('/') ? (
-              <video 
-                src={selectedItem.link} 
-                controls 
-                autoPlay 
-                className="w-full h-full object-contain"
-              />
+
+          <div className="relative max-w-5xl w-full max-h-full flex items-center justify-center" onClick={e => e.stopPropagation()}>
+            {selectedItem.type === 'image' ? (
+              <img src={selectedItem.src} className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" alt="Preview" />
             ) : (
-              <iframe 
-                src={`${selectedItem.link.replace('/view', '/preview')}?autoplay=1`} 
-                className="w-full h-full" 
-                allow="autoplay; encrypted-media" 
-                allowFullScreen
-              />
+              <video src={selectedItem.src} controls autoPlay className="max-w-full max-h-[85vh] rounded-lg shadow-2xl" />
             )}
           </div>
         </div>

@@ -1,5 +1,5 @@
 export const projectsData = [
-  // Chettinad Project
+  // Chettinad Project (52 images from Google Drive)
   { title: "Chettinad 1", type: "image", link: "https://drive.google.com/file/d/1E4aV0esAqCvZMNwS_0GCHBVEiTQepxiL/preview" },
   { title: "Chettinad 2", type: "image", link: "https://drive.google.com/file/d/113fSmWtoVohcEnhuYEHJ3mRRrQs5N__7/preview" },
   { title: "Chettinad 3", type: "image", link: "https://drive.google.com/file/d/11gItRnzoDbsQ1obGmdK_GH0u0dZrpByN/preview" },
@@ -53,24 +53,24 @@ export const projectsData = [
   { title: "Chettinad 51", type: "image", link: "https://drive.google.com/file/d/1xvvRG52YxOhlPX-a-hkQvamZ3NHO8Ak3/preview" },
   { title: "Chettinad 52", type: "image", link: "https://drive.google.com/file/d/1zFfHXO50RTRgeTBZGAtjXghEXX_M6lmo/preview" },
   
-  // Chettinad Video (4 Vertical, 1 Horizontal)
-  { title: "Chettinad Video 1", type: "video", link: "/project-files/01-chettinad-video/chettinad-video-1.mp4" },
-  { title: "Chettinad Video 2", type: "video", link: "/project-files/01-chettinad-video/chettinad-video-2.mp4" },
-  { title: "Chettinad Video 3", type: "video", link: "/project-files/01-chettinad-video/chettinad-video-3.mp4" },
-  { title: "Chettinad Video 4", type: "video", link: "/project-files/01-chettinad-video/chettinad-video-4.mp4" },
-  { title: "Chettinad Video 5", type: "video", link: "/project-files/01-chettinad-video/chettinad-video-5.mp4" },
+  // Chettinad Video (4 Vertical, 1 Horizontal) - All from Google Drive
+  { title: "Chettinad Video 1", type: "video", link: "https://drive.google.com/file/d/1zLp6NC3Mh6E0MDKy-KYa6E7WrZYYAl0H/preview" },
+  { title: "Chettinad Video 2", type: "video", link: "https://drive.google.com/file/d/1LLBJina_W6RhTMYG37Vib9AfyqiOlBV9/preview" },
+  { title: "Chettinad Video 3", type: "video", link: "https://drive.google.com/file/d/1RPT4UPGTj9dnXJfGSjrgBZVH9SGFTfgo/preview" },
+  { title: "Chettinad Video 4", type: "video", link: "https://drive.google.com/file/d/1nljasKr4XInqPy8feC_h8_BCmX4MYID6/preview" },
+  { title: "Chettinad Video 5", type: "video", link: "https://drive.google.com/file/d/1sDpZT-iBURxIGOktPaGxpAoxnqSsWpx_/preview" },
 
-  // Teak Home (4 Vertical)
-  { title: "Teakhome 1", type: "video", link: "/project-files/02-teakhome/teakhome-1.mp4" },
-  { title: "Teakhome 2", type: "video", link: "/project-files/02-teakhome/teakhome-2.mp4" },
-  { title: "Teakhome 3", type: "video", link: "/project-files/02-teakhome/teakhome-3.mp4" },
-  { title: "Teakhome 4", type: "video", link: "/project-files/02-teakhome/teakhome-4.mp4" },
+  // Teak Home (4 Vertical) - All from Google Drive
+  { title: "Teakhome 1", type: "video", link: "https://drive.google.com/file/d/1Dg8mjQBOzznmC7AMTl5SL0vjHkMwRYAX/preview" },
+  { title: "Teakhome 2", type: "video", link: "https://drive.google.com/file/d/1WhwqubTSVO8cZi_Z0cHJPRMlbcb8lH0R/preview" },
+  { title: "Teakhome 3", type: "video", link: "https://drive.google.com/file/d/1ZwYN6LgQztAz_kBxx6UyJpZXp0APTb5U/preview" },
+  { title: "Teakhome 4", type: "video", link: "https://drive.google.com/file/d/1bzqL1UrEC6kBXCShMmSFNnmfMQajTs-C/preview" },
 
-  // Broadcast (2 Horizontal)
-  { title: "Broadcast 1", type: "video", link: "/project-files/03-broadcast/broadcast-1.mp4" },
-  { title: "Broadcast 2", type: "video", link: "/project-files/03-broadcast/broadcast-2.mp4" },
+  // Broadcast (2 Horizontal) - All from Google Drive
+  { title: "Broadcast 1", type: "video", link: "https://drive.google.com/file/d/1TCjo5dc34mh1SUs-rgLD2tIYmb9CDfgp/preview" },
+  { title: "Broadcast 2", type: "video", link: "https://drive.google.com/file/d/1wnobb3DVfskarqQC1_PLdt8kI6GUSL_w/preview" },
 
-  // Independent
+  // Independent (18 images from Google Drive)
   { title: "Independent 1", type: "image", link: "https://drive.google.com/file/d/11Hm5TvfAUbVC8xpmuoVyFjYjL2kBwdvL/preview" },
   { title: "Independent 2", type: "image", link: "https://drive.google.com/file/d/17k6Ws-Ex0VUqH1CEQ0MI5r7WkaDl2ULE/preview" },
   { title: "Independent 3", type: "image", link: "https://drive.google.com/file/d/1B3o-mNnl7pFH2IFcZiNw2NQI1abWoMU8/preview" },
