@@ -101,7 +101,14 @@ export default function Portfolio() {
               onClick={() => setSelectedItem(item)}
             >
               {item.type === 'image' ? (
-                <Image src={item.src} alt={item.category} width={800} height={1200} className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" />
+                <Image 
+                  src={item.src} 
+                  alt={item.category} 
+                  width={800} 
+                  height={1200} 
+                  priority={idx < 6}
+                  className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" 
+                />
               ) : item.id ? (
                 <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
                   <img 
@@ -152,7 +159,7 @@ export default function Portfolio() {
                   : 'max-w-4xl aspect-video'
               }`}>
                 <iframe 
-                  src={`${selectedItem.src}?autoplay=1`} 
+                  src={`${selectedItem.src}?autoplay=1&modestbranding=1&rel=0&iv_load_policy=3`} 
                   className="w-full h-full" 
                   allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   allowFullScreen 
