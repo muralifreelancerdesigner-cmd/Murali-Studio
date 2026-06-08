@@ -7,6 +7,7 @@ type ProjectItem = {
   src: string;
   category: string;
   ratio?: string;
+  id?: string;
 };
 
 export default function Portfolio() {
@@ -19,20 +20,40 @@ export default function Portfolio() {
     for (let i = 1; i <= 52; i++) {
       items.push({ type: 'image', src: `/project-files/01-chettinad/chettinad-${i}.jpg`, category: 'Chettinad' });
     }
-    for (let i = 1; i <= 5; i++) {
+
+    // Chettinad Ads - YouTube Links
+    ['WrqE3RCFWgQ', 'WEzFoBSEeWM', 'TqdyCswJkSQ', '4hjjK3lAdbA', 'ga8meQjvkX8'].forEach((id, idx) => {
       items.push({ 
         type: 'video', 
-        src: `/project-files/02-adchettinad/adchettinad-${i}.mp4`, 
+        src: `https://www.youtube.com/embed/${id}`, 
+        id, 
         category: 'Chettinad Ads',
-        ratio: i === 5 ? 'aspect-video' : 'aspect-[9/16]' 
+        ratio: idx === 0 ? 'aspect-video' : 'aspect-[9/16]' 
       });
-    }
-    for (let i = 1; i <= 4; i++) {
-      items.push({ type: 'video', src: `/project-files/03-teakhome/teakhome-${i}.mp4`, category: 'Teak Home', ratio: 'aspect-[9/16]' });
-    }
-    for (let i = 1; i <= 2; i++) {
-      items.push({ type: 'video', src: `/project-files/04-broadcast/broadcast-${i}.mp4`, category: 'Broadcast', ratio: 'aspect-video' });
-    }
+    });
+
+    // Teak Home - YouTube Links
+    ['1R75xSyFeKo', 'nVaLFK5y0hE', 'UdMWhpMPVug', 'n595cRMIbGg'].forEach(id => {
+      items.push({ 
+        type: 'video', 
+        src: `https://www.youtube.com/embed/${id}`, 
+        id, 
+        category: 'Teak Home', 
+        ratio: 'aspect-[9/16]' 
+      });
+    });
+
+    // Broadcast - YouTube Links
+    ['-sJp0d5QbCs', '2leGUkCarGY'].forEach(id => {
+      items.push({ 
+        type: 'video', 
+        src: `https://www.youtube.com/embed/${id}`, 
+        id, 
+        category: 'Broadcast', 
+        ratio: 'aspect-video' 
+      });
+    });
+
     for (let i = 1; i <= 18; i++) {
       items.push({ type: 'image', src: `/project-files/05-independent/independent-${i}.jpg`, category: 'Independent' });
     }
@@ -81,6 +102,19 @@ export default function Portfolio() {
             >
               {item.type === 'image' ? (
                 <Image src={item.src} alt={item.category} width={800} height={1200} className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" />
+              ) : item.id ? (
+                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
+                  <img 
+                    src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`} 
+                    alt={item.category}
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700" 
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
+                      <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
                   <video 
@@ -111,6 +145,19 @@ export default function Portfolio() {
           <div className="relative max-w-5xl w-full" onClick={e => e.stopPropagation()}>
             {selectedItem.type === 'image' ? (
               <img src={selectedItem.src} className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" alt="Preview" />
+            ) : selectedItem.id ? (
+              <div className={`mx-auto w-full shadow-2xl rounded-lg overflow-hidden ${
+                selectedItem.ratio === 'aspect-[9/16]' 
+                  ? 'max-w-[min(400px,90vw)] aspect-[9/16]' 
+                  : 'max-w-4xl aspect-video'
+              }`}>
+                <iframe 
+                  src={`${selectedItem.src}?autoplay=1`} 
+                  className="w-full h-full" 
+                  allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowFullScreen 
+                />
+              </div>
             ) : (
               <video controls autoPlay className="max-w-full max-h-[85vh] rounded-lg shadow-2xl">
                 <source src={selectedItem.src} type="video/mp4" />
