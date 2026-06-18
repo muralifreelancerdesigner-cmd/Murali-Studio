@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "R. Murali | Graphic Designer & Creative Director",
-  description: "Portfolio of R. Murali — brand systems, motion, and editorial design.",
+  title: 'Murali R | Premium Portfolio',
+  description: 'Creative Editor & Visual Designer Portfolio Showcase.',
 };
 
 export default function RootLayout({
@@ -16,11 +12,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    /* data-scroll-behavior="smooth" ensures Next.js 16 correctly handles GSAP overrides */
-    <html lang="en" data-scroll-behavior="smooth">
-      <body className={poppins.className}>
-        <Navbar />
-        <main>{children}</main>
+    <html lang="en" className="scroll-smooth">
+      <head>
+        {/* Preconnecting Google Fonts for optimal performance optimization */}
+        <link rel="preconnect" href="https://googleapis.com" />
+        <link rel="preconnect" href="https://gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
+      <body className="antialiased selection:bg-[var(--color-accent-soft)] selection:text-[var(--color-accent)] bg-[var(--color-background)]">
+        {children}
       </body>
     </html>
   );

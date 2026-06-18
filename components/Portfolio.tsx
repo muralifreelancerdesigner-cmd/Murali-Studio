@@ -1,178 +1,99 @@
 'use client';
-import { useState, useMemo, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
+import PortfolioModal from './PortfolioModal';
 
-type ProjectItem = {
-  type: 'image' | 'video';
-  src: string;
-  category: string;
-  ratio?: string;
-  id?: string;
-};
+const categories = ["All", "Video Editing", "VFX", "Graphic Design"];
+
+const portfolioItems = [
+  { id: "dQw4w9WgXcQ", src: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2070", type: "video", category: "Video Editing" },
+  { id: "1", src: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071", type: "image", category: "Graphic Design" },
+  { id: "2", src: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070", type: "image", category: "VFX" },
+  { id: "y6120QOlsfU", src: "https://images.unsplash.com/photo-1492691523569-44352756130c?q=80&w=2070", type: "video", category: "Video Editing" },
+  { id: "3", src: "https://images.unsplash.com/photo-1534670007418-fbb7f6cf32c3?q=80&w=1976", type: "image", category: "Graphic Design" },
+  { id: "4", src: "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1964", type: "image", category: "VFX" },
+];
 
 export default function Portfolio() {
-  const [selectedItem, setSelectedItem] = useState<ProjectItem | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [filter, setFilter] = useState("All");
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
-  const allItems = useMemo(() => {
-    const items: ProjectItem[] = [];
-    
-    for (let i = 1; i <= 52; i++) {
-      items.push({ type: 'image', src: `/project-files/01-chettinad/chettinad-${i}.jpg`, category: 'Chettinad' });
-    }
 
-    // Chettinad Ads - YouTube Links
-    ['WrqE3RCFWgQ', 'WEzFoBSEeWM', 'TqdyCswJkSQ', '4hjjK3lAdbA', 'ga8meQjvkX8'].forEach((id, idx) => {
-      items.push({ 
-        type: 'video', 
-        src: `https://www.youtube.com/embed/${id}`, 
-        id, 
-        category: 'Chettinad Ads',
-        ratio: idx === 0 ? 'aspect-video' : 'aspect-[9/16]' 
-      });
-    });
-
-    // Teak Home - YouTube Links
-    ['1R75xSyFeKo', 'nVaLFK5y0hE', 'UdMWhpMPVug', 'n595cRMIbGg'].forEach(id => {
-      items.push({ 
-        type: 'video', 
-        src: `https://www.youtube.com/embed/${id}`, 
-        id, 
-        category: 'Teak Home', 
-        ratio: 'aspect-[9/16]' 
-      });
-    });
-
-    // Broadcast - YouTube Links
-    ['-sJp0d5QbCs', '2leGUkCarGY'].forEach(id => {
-      items.push({ 
-        type: 'video', 
-        src: `https://www.youtube.com/embed/${id}`, 
-        id, 
-        category: 'Broadcast', 
-        ratio: 'aspect-video' 
-      });
-    });
-
-    for (let i = 1; i <= 18; i++) {
-      items.push({ type: 'image', src: `/project-files/05-independent/independent-${i}.jpg`, category: 'Independent' });
-    }
-    return items;
-  }, []);
-
-  const filteredItems = useMemo(() => {
-    if (activeCategory === 'All') return allItems;
-    return allItems.filter(item => item.category === activeCategory);
-  }, [activeCategory, allItems]);
-
-  const categories = ['All', 'Chettinad', 'Chettinad Ads', 'Teak Home', 'Broadcast', 'Independent'];
+  const filteredItems = filter === "All" 
+    ? portfolioItems 
+    : portfolioItems.filter(item => item.category === filter);
 
   return (
-    <section id="projects" className="py-32 bg-white text-zinc-900 relative">
-      <div className="relative z-10 mx-auto max-w-7xl px-8 flex flex-col items-center text-center">
-        <div className="mb-20">
-          <p className="text-[10px] uppercase tracking-[0.5em] text-teal-700 mb-4 font-bold">Portfolio</p>
-          <h2 className="text-5xl md:text-7xl font-black tracking-tight text-zinc-900">
-            Selected Work<span className="text-teal-600">.</span>
-          </h2>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+    <section id="projects" className="py-24 px-6 bg-[var(--bg-darken)] min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        {/* Filter Navigation */}
+        <div className="flex flex-wrap justify-center gap-4 mb-20">
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-8 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-300 ${
-                activeCategory === cat ? 'bg-teal-700 text-white shadow-xl shadow-teal-700/30 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'
+              onClick={() => setFilter(cat)}
+              className={`px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-300 border ${
+                filter === cat 
+                  ? "bg-purple-600 border-purple-600 text-white shadow-[0_0_30px_rgba(157,78,221,0.3)]" 
+                  : "border-white/10 text-slate-400 hover:border-purple-500/50 hover:text-white bg-white/5"
               }`}
             >
               {cat}
             </button>
           ))}
         </div>
-      </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-8">
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* Masonry Grid */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
           {filteredItems.map((item, idx) => (
             <div 
               key={`${item.src}-${idx}`} 
-              className={`relative break-inside-avoid mb-6 overflow-hidden rounded-[2rem] bg-zinc-100 border border-zinc-200/50 group cursor-pointer hover:shadow-2xl transition-all duration-500 ${item.ratio || 'h-auto'}`}
+              className="relative break-inside-avoid overflow-hidden rounded-[24px] border border-white/5 bg-[var(--surface-premium)] group cursor-pointer shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-purple-500/40 hover:shadow-[0_20px_50px_rgba(10,5,24,0.8)]"
               onClick={() => setSelectedItem(item)}
             >
-              {item.type === 'image' ? (
-                <Image 
-                  src={item.src} 
-                  alt={item.category} 
-                  width={800} 
-                  height={1200} 
-                  priority={idx < 6}
-                  className="w-full h-auto object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" 
-                />
-              ) : item.id ? (
-                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
-                  <img 
-                    src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`} 
-                    alt={item.category}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700" 
+              <div className="relative overflow-hidden">
+                {/* Gradient Overlay reveal */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-darken)] via-transparent to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-500 z-10" />
+                
+                {/* Media rendering */}
+                {item.type === 'image' ? (
+                  <Image 
+                    src={item.src} 
+                    alt={item.category} 
+                    width={800} 
+                    height={1000} 
+                    className="w-full h-auto object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                      <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                ) : (
+                  /* Video block with an elegant glass play icon overlay */
+                  <div className="relative w-full aspect-video bg-slate-950">
+                    <img 
+                      src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`} 
+                      alt={item.category}
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500" 
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center z-20">
+                      <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 transform scale-100 group-hover:scale-110 transition-all duration-300">
+                        <svg className="w-8 h-8 text-purple-400 fill-current ml-1" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="relative w-full h-full bg-zinc-900 flex items-center justify-center">
-                  <video 
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
-                    preload="metadata" 
-                    muted 
-                    playsInline 
-                    loop 
-                    autoPlay
-                  >
-                    <source src={item.src} type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                      <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
+
+              {/* Floating Info Badge on Hover */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 z-20">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-purple-400 font-bold mb-2">{item.category}</p>
+                <h3 className="text-white font-bold text-xl leading-tight">View Media Project</h3>
+              </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {selectedItem && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 p-4 backdrop-blur-md" onClick={() => setSelectedItem(null)}>
-          <button className="absolute top-8 right-8 text-white z-[110]"><svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg></button>
-          <div className="relative max-w-5xl w-full" onClick={e => e.stopPropagation()}>
-            {selectedItem.type === 'image' ? (
-              <img src={selectedItem.src} className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" alt="Preview" />
-            ) : selectedItem.id ? (
-              <div className={`mx-auto w-full shadow-2xl rounded-lg overflow-hidden ${
-                selectedItem.ratio === 'aspect-[9/16]' 
-                  ? 'max-w-[min(400px,90vw)] aspect-[9/16]' 
-                  : 'max-w-4xl aspect-video'
-              }`}>
-                <iframe 
-                  src={`${selectedItem.src}?autoplay=1&modestbranding=1&rel=0&iv_load_policy=3`} 
-                  className="w-full h-full" 
-                  allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  allowFullScreen 
-                />
-              </div>
-            ) : (
-              <video controls autoPlay className="max-w-full max-h-[85vh] rounded-lg shadow-2xl">
-                <source src={selectedItem.src} type="video/mp4" />
-              </video>
-            )}
-          </div>
-        </div>
-      )}
+        <PortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      </div>
     </section>
   );
 }

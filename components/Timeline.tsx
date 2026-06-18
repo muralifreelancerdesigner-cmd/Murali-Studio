@@ -1,41 +1,69 @@
-// components/Timeline.tsx
+'use client';
+
 export default function Timeline() {
   const experiences = [
-    { year: "2025", role: "Graphic Designer & Video Editor", company: "Chettinad Hospital & Research Institute" },
-    { 
-      year: "2022-2024", 
-      role: "Graphic Designer & Video Editor", 
-      company: "Teak Home",
-      link: "https://www.youtube.com/@teakhome-teakwoodfurniturestor/shorts" 
+    {
+      year: "2024 - Present",
+      role: "Lead Visual Designer",
+      company: "TriggerView Studios",
+      link: "#"
     },
-    { year: "2016-2022", role: "Video Editor & Designer", company: "Broadcast Media Channels" },
-    { year: "2013-2016", role: "Application Developer", company: "Pamz3d Designs India Pvt Ltd" }
+    {
+      year: "2022 - 2024",
+      role: "Senior Video Editor & Animator",
+      company: "Creative Production House",
+      link: "#"
+    },
+    {
+      year: "2020 - 2022",
+      role: "Junior Designer",
+      company: "Digital Media Agency",
+      link: ""
+    }
   ];
 
   return (
-    <section className="py-32 bg-white text-zinc-900">
-      <h2 className="text-3xl md:text-4xl text-center text-teal-800 mb-20 font-black tracking-widest uppercase">Career Timeline</h2>
-      <div className="max-w-3xl mx-auto border-l-2 border-zinc-100 pl-8 space-y-12">
-        {experiences.map((exp, index) => (
-          <div key={index} className="relative">
-            <div className="absolute -left-[41px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-teal-600 shadow-sm" />
-            <h3 className="text-xl font-black tracking-tight mb-1 text-zinc-900">{exp.role}</h3>
-            <div className="flex flex-wrap items-center gap-x-4">
-              <p className="text-teal-700 text-sm font-bold uppercase tracking-wider">{exp.year} — {exp.company}</p>
-              {exp.link && (
-                <a 
-                  href={exp.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[10px] font-black text-red-600 hover:text-teal-700 transition-colors uppercase tracking-[0.2em]"
-                >
-                  <span className="w-1 h-1 rounded-full bg-red-600" />
-                  View Channel
-                </a>
-              )}
+    <section id="timeline" className="py-32 bg-transparent text-[var(--color-text)] relative">
+      <div className="max-w-4xl mx-auto px-6">
+        <span className="block text-center text-[10px] uppercase tracking-[0.45em] text-[var(--color-accent)] font-bold mb-3">
+          History
+        </span>
+        <h2 className="text-4xl md:text-5xl text-center font-black tracking-tight text-white mb-24">
+          Career Timeline
+        </h2>
+        
+        {/* Continuous Linear Vertical Track */}
+        <div className="relative border-l border-zinc-800 ml-4 md:ml-32 space-y-16">
+          {experiences.map((exp, index) => (
+            <div key={index} className="relative pl-8 group">
+              {/* Core Emerald Indicator Ring Node */}
+              <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-slate-950 border-2 border-emerald-500/40 shadow-[0_0_12px_var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-all duration-300" />
+              
+              {/* Premium Card Structure */}
+              <div className="glass-card p-8 transition-all duration-400">
+                <span className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-wider block mb-2">
+                  {exp.year}
+                </span>
+                <h3 className="text-xl font-bold tracking-tight text-white mb-1">
+                  {exp.role}
+                </h3>
+                <p className="text-[var(--color-muted)] text-sm font-medium">
+                  {exp.company}
+                </p>
+                
+                {exp.link && (
+                  <a 
+                    href={exp.link} 
+                    className="inline-flex items-center gap-2 text-[10px] font-bold text-emerald-400 hover:text-emerald-300 mt-5 uppercase tracking-widest transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    View Case Study
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

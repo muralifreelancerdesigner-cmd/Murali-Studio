@@ -1,36 +1,40 @@
+'use client';
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Expertise from '@/components/Expertise';
 import Portfolio from '@/components/Portfolio';
+import Timeline from '@/components/Timeline';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 export default function Home() {
+  // Global scroll restoration management for high-end web experiences
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <main className="bg-primary text-text-white min-h-screen overflow-hidden">
-      {/* 1. Navigation Bar */}
+    <main className="relative min-h-screen bg-[var(--color-background)] overflow-hidden selection:bg-[var(--color-accent-soft)] selection:text-[var(--color-accent)]">
+      {/* Structural Layer Fixed Ambient Noise / Lighting Overlays */}
+      <div className="pointer-events-none fixed inset-0 z-40 bg-[radial-gradient(transparent_1px,var(--color-background)_1px)] bg-[size:4px_4px] opacity-[0.02]" />
+      
+      {/* Navigation Layer */}
       <Navbar />
 
-      {/* 2. Main Sections */}
-      <div className="flex flex-col">
-        <section id="hero">
-          <Hero />
-        </section>
-        
-        <section id="expertise">
-          <Expertise />
-        </section>
-        
-        <section id="portfolio">
-          <Portfolio />
-        </section>
-        
-        <section id="contact">
-          <Contact />
-        </section>
-      </div>
-      
-      {/* 3. Footer */}
+      {/* Presentation Content Cascade */}
+      <article className="relative z-10 space-y-0">
+        <Hero />
+        <Expertise />
+        <Portfolio />
+        <Timeline />
+        <Contact />
+      </article>
+
+      {/* Structural Termination Base */}
       <Footer />
     </main>
   );

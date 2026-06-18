@@ -14,13 +14,12 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 backdrop-blur-md transition-all duration-500 ${isScrolled || isMenuOpen ? 'bg-white/95 py-3 shadow-sm' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md transition-all duration-500 ${isScrolled || isMenuOpen ? 'bg-[var(--bg-darken)]/90 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.3)]' : 'bg-transparent py-6'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8">
-        <a href="#home" className="text-zinc-900 font-bold text-xl tracking-tighter hover:text-teal-700 transition-colors">
-          RM<span className="text-teal-600">.</span>
+        <a href="#home" className="text-white font-black text-xl tracking-tighter hover:text-[var(--accent-neon)] transition-colors">
+          RM<span className="text-[var(--accent-neon)]">.</span>
         </a>
-
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-8 md:flex">
           {[
             { name: 'Home', link: '#home' },
             { name: 'Services', link: '#services' },
@@ -29,21 +28,19 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.link}
-              className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 transition-colors duration-300 hover:text-teal-700 font-bold"
+              className="text-[10px] uppercase tracking-[0.3em] text-[var(--text-muted)] transition-colors duration-300 hover:text-white font-bold"
             >
               {item.name}
             </a>
           ))}
-
-          <a href="#contact" className="bg-teal-700 text-white px-8 py-2.5 rounded-full text-[10px] uppercase tracking-[0.2em] font-black hover:bg-teal-800 hover:scale-105 transition-all active:scale-95 shadow-xl shadow-teal-700/30">
+          <a href="#contact" className="btn-primary !px-6 !py-2.5 !text-[11px] !tracking-[0.22em]">
             Hire Me
           </a>
         </div>
-
         <button 
           type="button" 
           aria-label="Toggle menu" 
-          className="md:hidden text-zinc-900 hover:text-teal-700 transition-all active:scale-90"
+          className="md:hidden text-white hover:text-[var(--accent-neon)] transition-all active:scale-90"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -55,16 +52,15 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
-
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Overlay Menu */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white/98 backdrop-blur-xl border-b border-zinc-200 flex flex-col items-center gap-8 py-12 md:hidden shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="absolute top-full left-0 right-0 bg-[var(--surface-premium)]/95 backdrop-blur-xl border-b border-white/5 flex flex-col items-center gap-8 py-12 md:hidden shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
           {['Home', 'Services', 'Projects'].map((name) => (
-            <a key={name} href={`#${name.toLowerCase()}`} onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-black hover:text-teal-700 transition-colors">
+            <a key={name} href={`#${name.toLowerCase()}`} onClick={() => setIsMenuOpen(false)} className="text-[10px] uppercase tracking-[0.4em] text-[var(--text-muted)] font-black hover:text-white transition-colors">
               {name}
             </a>
           ))}
-          <a href="#contact" onClick={() => setIsMenuOpen(false)} className="bg-teal-700 text-white px-10 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] font-black shadow-lg shadow-teal-700/20">
+          <a href="#contact" onClick={() => setIsMenuOpen(false)} className="btn-primary !px-6 !py-2.5 !text-[11px] !tracking-[0.22em]">
             Hire Me
           </a>
         </div>

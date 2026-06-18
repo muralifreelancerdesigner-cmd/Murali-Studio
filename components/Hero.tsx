@@ -1,78 +1,89 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import Image from 'next/image';
-
-/**
- * Note: In React 19, 'ref' is a standard prop. 
- * If this component were to receive a ref from a parent, 
- * we no longer need forwardRef.
- */
-
-const stats = [
-  { label: 'Years of design', value: '12+' },
-  { label: 'Projects shipped', value: '120+' },
-  { label: 'Clients worldwide', value: '40+' },
-];
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
     const ctx = gsap.context(() => {
-      // Staggered animation for a more premium entry
-      gsap.from(".animate-item", {
+      gsap.from(".reveal-text", {
+        y: "40%",
         opacity: 0,
-        y: 40,
         duration: 1.2,
         stagger: 0.15,
-        ease: "power4.out",
+        ease: "power4.out"
       });
-    }, containerRef);
-
+      gsap.from(".stat-box", {
+        scale: 0.95,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.1,
+        ease: "power3.out",
+        delay: 0.5
+      });
+    }, heroRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen overflow-hidden px-6 pt-[120px] pb-24 md:pt-[140px] bg-[#F2F2F2]"
-    >
-      <div ref={containerRef} className="relative z-10 mx-auto flex max-w-6xl flex-col items-center text-center gap-10">
-        <span className="animate-item inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/50 px-6 py-2 text-[10px] uppercase tracking-[0.5em] text-teal-800 backdrop-blur-sm font-black">
-          Visual Portfolio
-        </span>
+    <section ref={heroRef} id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[var(--color-background)] px-6 pt-32 pb-20">
+      {/* Dynamic Ambient Background Glows */}
+      <div className="absolute top-[-10%] left-[5%] w-[600px] h-[600px] rounded-full bg-[var(--color-accent-soft)] blur-[160px] pointer-events-none opacity-40 animate-pulse duration-[8000ms]" />
+      <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] rounded-full bg-teal-500/5 blur-[140px] pointer-events-none opacity-30" />
 
-        <div className="space-y-6">
-          <h1 className="animate-item max-w-5xl text-6xl md:text-8xl font-black tracking-tighter text-zinc-900 leading-[0.85]">
-            Murali R<span className="text-teal-600">.</span><br/>
-            <span className="text-zinc-400/80">Editor & Designer</span>
-          </h1>
-
-          <p className="animate-item max-w-2xl text-zinc-600 text-base md:text-lg leading-relaxed mx-auto font-medium">
-            Professional video editor and graphic designer crafting cinematic stories and high-impact visual identities.
-          </p>
+      {/* Main Content Area */}
+      <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 flex-1 flex flex-col justify-center items-center">
+        <div className="overflow-hidden">
+          <span className="reveal-text inline-block px-4 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-soft)] text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--color-accent)]">
+            Creative Portfolio
+          </span>
         </div>
 
-        <div className="animate-item flex flex-col items-center justify-center gap-4 sm:flex-row pt-2">
-          <a href="#projects" className="bg-teal-700 text-white px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:bg-teal-800 transition-all shadow-lg shadow-teal-700/20">
-            Explore work
+        {/* Clean Fixed Typography Stack */}
+        <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white leading-[1.05] overflow-hidden max-w-4xl">
+          <span className="reveal-text block">
+            MURALI R<span className="text-[var(--color-accent)]">.</span>
+          </span>
+          <span className="reveal-text block text-transparent bg-clip-text bg-gradient-to-r from-slate-400 via-slate-100 to-slate-500 font-medium text-3xl md:text-5xl mt-4 tracking-normal">
+            Editor & Visual Designer
+          </span>
+        </h1>
+
+        <p className="reveal-text max-w-2xl mx-auto text-[var(--color-muted)] text-sm md:text-base font-normal leading-relaxed tracking-wide">
+          Crafting high-impact cinematic stories and tailored brand identities for ambitious global systems.
+        </p>
+
+        {/* Unified Button Row Architecture */}
+        <div className="reveal-text flex flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto">
+          <a href="#projects" className="btn-primary !text-[11px] !px-8 !py-3.5 min-w-[160px]">
+            Explore Work
           </a>
-          <a href="#contact" className="border border-zinc-300 text-zinc-900 px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:bg-zinc-100 transition-all">
-            Book a call
+          <a href="#contact" className="btn-secondary !text-[11px] !px-8 !py-3.5 min-w-[160px]">
+            Get In Touch
           </a>
         </div>
+      </div>
 
-        <div className="animate-item grid w-full gap-6 sm:grid-cols-3 mt-16">
-          {stats.map((item, index) => (
-            <div key={index} className="bg-white border border-zinc-200 rounded-[2rem] p-8 shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500 mb-3 font-bold">{item.label}</p>
-              <p className="text-4xl md:text-5xl font-black text-teal-800">{item.value}</p>
-            </div>
-          ))}
-        </div>
+      {/* Re-engineered Metric Grid */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+        {[
+          { metric: "12+", title: "Years of Design" },
+          { metric: "120+", title: "Projects Shipped" },
+          { metric: "40+", title: "Clients Worldwide" }
+        ].map((item, idx) => (
+          <div 
+            key={idx} 
+            className="stat-box glass-card !bg-[var(--color-surface)]/40 border border-white/5 p-8 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-[var(--color-accent)]/30 group"
+          >
+            <span className="text-4xl md:text-5xl font-black tracking-tighter text-white group-hover:text-[var(--color-accent)] transition-colors duration-300">
+              {item.metric}
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-muted)] font-bold mt-3 block">
+              {item.title}
+            </span>
+          </div>
+        ))}
       </div>
     </section>
   );
