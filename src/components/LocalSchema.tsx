@@ -1,44 +1,31 @@
 'use client';
 
+import React from 'react';
+import { PROFILE_INFO } from '../data/constants';
+
 export default function LocalSchema() {
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "Murali Studio",
-    "image": "https://unsplash.com",
+    "name": `${PROFILE_INFO.name} | Murali Studio`,
+    "image": "https://vercel.app",
     "@id": "https://vercel.app",
     "url": "https://vercel.app",
     "telephone": "+919344517533",
-    "priceRange": "$$$",
+    "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Adyar",
       "addressLocality": "Chennai",
       "addressRegion": "Tamil Nadu",
-      "postalCode": "600020",
       "addressCountry": "IN"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 13.0067,
-      "longitude": 80.2575
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "opens": "09:00",
-      "closes": "19:00"
-    },
-    "sameAs": [
-      "https://instagram.com",
-      "https://linkedin.com"
-    ]
+    "description": PROFILE_INFO.summary,
+    "knowsAbout": [
+      ...PROFILE_INFO.skills.design,
+      ...PROFILE_INFO.skills.video,
+      ...PROFILE_INFO.skills.tools
+    ],
+    "jobTitle": PROFILE_INFO.title
   };
 
   return (
