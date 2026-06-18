@@ -5,6 +5,7 @@ import AnalyticsDrawer from '@/components/AnalyticsDrawer';
 import Hero from '@/components/Hero';
 import Expertise from '@/components/Expertise';
 import Portfolio from '@/components/Portfolio';
+import PriceCalculator from '@/components/PriceCalculator';
 import Timeline from '@/components/Timeline';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -32,6 +33,7 @@ export default function Home() {
         <Hero />
         <Expertise />
         <Portfolio />
+        <PriceCalculator /> {/* Embedded seamlessly into the presentation grid */}
         <Timeline />
         <Contact />
       </article>
