@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import AnalyticsDrawer from '@/components/AnalyticsDrawer';
+import MouseGlow from '@/components/MouseGlow';
 import Hero from '@/components/Hero';
 import Expertise from '@/components/Expertise';
 import Portfolio from '@/components/Portfolio';
@@ -26,6 +27,7 @@ export default function Home() {
       
       {/* Navigation Layer */}
       <Navbar />
+      <MouseGlow /> {/* Smooth interactive glow overlay tracker layer */}
       <AnalyticsDrawer /> {/* Injected smoothly into global layout runtime stack */}
 
       {/* Presentation Content Cascade */}
