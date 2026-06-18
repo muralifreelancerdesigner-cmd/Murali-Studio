@@ -1,29 +1,46 @@
-import { Metadata } from 'next';
+'use client';
+import { useEffect } from 'react';
+import Navbar from '@/components/Navbar';
+import MouseGlow from '@/components/MouseGlow';
+import AnalyticsDrawer from '@/components/AnalyticsDrawer';
+import Hero from '@/components/Hero';
+import Expertise from '@/components/Expertise';
+import Portfolio from '@/components/Portfolio';
+import PriceCalculator from '@/components/PriceCalculator';
+import Timeline from '@/components/Timeline';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
 
-// Premium SEO Optimization Engine Settings
-export const metadata: Metadata = {
-  title: 'Murali R. | Premium Video Editor & Visual Designer Portfolio',
-  description: 'Crafting high-impact cinematic stories and tailored brand identities for ambitious global systems.',
-  openGraph: {
-    title: 'Murali R. | Editor & Visual Designer',
-    description: 'Explore my premium portfolio featuring cinematic video production and luxury brand design assets.',
-    url: 'https://vercel.app',
-    siteName: 'Murali Studio Portfolio',
-    images: [
-      {
-        url: 'https://unsplash.com',
-        width: 1200,
-        height: 630,
-        alt: 'Murali Studio Visual Showcase Preview Card',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Murali R. | Editor & Visual Designer',
-    description: 'Crafting high-impact cinematic stories and tailored brand identities.',
-    images: ['https://unsplash.com'],
-  },
-};
+export default function Home() {
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <main className="relative min-h-screen bg-[var(--color-background)] overflow-hidden selection:bg-[var(--color-accent-soft)] selection:text-[var(--color-accent)]">
+      {/* Structural Layer Fixed Ambient Noise Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-40 bg-[radial-gradient(transparent_1px,var(--color-background)_1px)] bg-[size:4px_4px] opacity-[0.02]" />
+      
+      {/* Navigation & Desktop Mouse Interaction Layer */}
+      <Navbar />
+      <MouseGlow />
+      <AnalyticsDrawer />
+
+      {/* Presentation Content Cascade */}
+      <article className="relative z-10 space-y-0">
+        <Hero />
+        <Expertise />
+        <Portfolio />
+        <PriceCalculator />
+        <Timeline />
+        <Contact />
+      </article>
+
+      {/* Structural Termination Base */}
+      <Footer />
+    </main>
+  );
+}
