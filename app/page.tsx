@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
+import AnalyticsDrawer from '@/components/AnalyticsDrawer';
 import Hero from '@/components/Hero';
 import Expertise from '@/components/Expertise';
 import Portfolio from '@/components/Portfolio';
@@ -24,6 +25,7 @@ export default function Home() {
       
       {/* Navigation Layer */}
       <Navbar />
+      <AnalyticsDrawer /> {/* Injected smoothly into global layout runtime stack */}
 
       {/* Presentation Content Cascade */}
       <article className="relative z-10 space-y-0">
