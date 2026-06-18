@@ -1,14 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* Core framework speed optimizations */
   reactStrictMode: true,
-  poweredByHeader: false, // Increases security by hiding framework signatures
+  poweredByHeader: false, // Hides framework signature for added security
 
   images: {
-    // Enable advanced webp/avif image compression optimization thresholds
-    formats: ['image/avif', 'image/webp'],
-    // Protects your system by explicitly specifying secure media CDNs
+    formats: ['image/avif', 'image/webp'], // Automatic high-speed web compression
     remotePatterns: [
       {
         protocol: 'https',
