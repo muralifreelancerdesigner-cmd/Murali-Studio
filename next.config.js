@@ -8,17 +8,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'drive.google.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'i.ytimg.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.youtube.com',
         pathname: '/**',
       },
     ],
