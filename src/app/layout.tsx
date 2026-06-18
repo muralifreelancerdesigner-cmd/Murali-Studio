@@ -1,4 +1,5 @@
 import LocalSchema from '@/components/LocalSchema';
+import './globals.css';
 
 export default function RootLayout({
   children,
