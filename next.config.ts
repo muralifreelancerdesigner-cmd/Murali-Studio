@@ -1,20 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone', 
+  /* Core framework speed optimizations */
+  reactStrictMode: true,
+  poweredByHeader: false, // Increases security by hiding framework signatures
 
   images: {
-    unoptimized: true,
-    minimumCacheTTL: 14400,
-    qualities: [75],
-  },
-
-  // React Compiler-ai experimental-ukku veliye kondu vanthuvitten
-  reactCompiler: true, 
-
-  // Matra experimental features irunthal inge vaiyungal
-  experimental: {
-    // ppr: true, (Oru vela irunthal)
+    // Enable advanced webp/avif image compression optimization thresholds
+    formats: ['image/avif', 'image/webp'],
+    // Protects your system by explicitly specifying secure media CDNs
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '://unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '://youtube.com',
+        port: '',
+        pathname: '/**',
+      }
+    ],
   },
 };
 
