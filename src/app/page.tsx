@@ -1,46 +1,45 @@
-'use client';
-import { useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import MouseGlow from '../components/MouseGlow';
-import AnalyticsDrawer from '../components/AnalyticsDrawer';
-import Hero from '../components/Hero';
-import Expertise from '../components/Expertise';
-import Portfolio from '../components/Portfolio';
-import PriceCalculator from '../components/PriceCalculator';
-import Timeline from '../components/Timeline';
-import Contact from '../components/Contact';
-import Footer from '../components/Footer';
+import React from 'react';
+import Hero from '@/components/Hero';
+import Expertise from '@/components/Expertise';
+import Timeline from '@/components/Timeline';
+import Portfolio from '@/components/Portfolio';
+import PriceCalculator from '@/components/PriceCalculator';
+import Contact from '@/components/Contact';
+import AnalyticsDrawer from '@/components/AnalyticsDrawer';
+import ScrollReveal from '@/components/ScrollReveal';
 
 export default function Home() {
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
-    <main className="relative min-h-screen bg-[var(--color-background)] overflow-hidden selection:bg-[var(--color-accent-soft)] selection:text-[var(--color-accent)]">
-      {/* Structural Layer Fixed Ambient Noise Overlay */}
-      <div className="pointer-events-none fixed inset-0 z-40 bg-[radial-gradient(transparent_1px,var(--color-background)_1px)] bg-[size:4px_4px] opacity-[0.02]" />
+    <main className="relative min-h-screen bg-[#06070a] text-neutral-100 overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-400">
+      {/* Visual background atmospheric accents */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-gradient-to-b from-emerald-500/5 to-transparent blur-3xl pointer-events-none z-0" />
       
-      {/* Navigation & Desktop Mouse Interaction Layer */}
-      <Navbar />
-      <MouseGlow />
-      <AnalyticsDrawer />
-
-      {/* Presentation Content Cascade */}
-      <article className="relative z-10 space-y-0">
+      <ScrollReveal>
         <Hero />
-        <Expertise />
-        <Portfolio />
-        <PriceCalculator />
-        <Timeline />
-        <Contact />
-      </article>
+      </ScrollReveal>
 
-      {/* Structural Termination Base */}
-      <Footer />
+      <ScrollReveal>
+        <Expertise />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Portfolio />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <PriceCalculator />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Timeline />
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <Contact />
+      </ScrollReveal>
+
+      {/* Floating System status controller drawer */}
+      <AnalyticsDrawer />
     </main>
   );
 }

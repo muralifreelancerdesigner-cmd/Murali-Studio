@@ -57,30 +57,29 @@ export default function Portfolio() {
                 
                 {/* Media rendering */}
                 {item.type === 'image' ? (
-                  <Image 
-                    src={item.src} 
-                    alt={item.category} 
-                    width={800} 
-                    height={1000} 
+                  <Image
+                    src={item.src}
+                    alt={item.category}
+                    width={800}
+                    height={1000}
                     className="w-full h-auto object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                ) : (
-                  /* Video block with an elegant glass play icon overlay */
+                ) : item.type === 'video' ? (
                   <div className="relative w-full aspect-video bg-slate-950">
-                    <img 
-                      src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`} 
+                    <img
+                      src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`}
                       alt={item.category}
-                      className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500" 
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500"
                     />
                     <div className="absolute inset-0 flex items-center justify-center z-20">
                       <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 transform scale-100 group-hover:scale-110 transition-all duration-300">
                         <svg className="w-8 h-8 text-purple-400 fill-current ml-1" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
+                          <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
                     </div>
                   </div>
-                )}
+                ) : null}
               </div>
 
               {/* Floating Info Badge on Hover */}

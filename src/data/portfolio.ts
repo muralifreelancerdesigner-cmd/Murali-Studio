@@ -1,35 +1,31 @@
 export interface PortfolioItem {
   id: string;
-  type: 'video' | 'image';
-  category: 'editing' | 'design' | 'branding';
-  src: string;
   title: string;
-  description: string;
+  category: string;
+  type: 'image' | 'video';
+  src: string; // Direct video path, YouTube watch link, or image URL
 }
 
 export const portfolioItems: PortfolioItem[] = [
   {
-    id: "1",
-    type: "video",
-    category: "editing",
-    src: "dQw4w9WgXcQ", // YouTube Video ID
-    title: "Cinematic Brand Narrative",
-    description: "High-impact post-production sequencing featuring continuous visual tracking layouts."
+    id: '1',
+    title: 'Cinematic Brand Story',
+    category: 'Video Editing',
+    type: 'video',
+    src: 'https://youtube.com' // YouTube link example
   },
   {
-    id: "2",
-    type: "image",
-    category: "design",
-    src: "https://unsplash.com",
-    title: "Abstract Visual Packaging",
-    description: "Digital layout structure exploring depth parameters and glassmorphism elements."
+    id: '2',
+    title: 'Commercial Motion Showcase',
+    category: 'Visual Design',
+    type: 'video',
+    src: '/assets/videos/showcase.mp4' // Local hosted video example
   },
   {
-    id: "3",
-    type: "image",
-    category: "branding",
-    src: "https://unsplash.com",
-    title: "Corporate Visual System",
-    description: "Comprehensive corporate brand identity framework using high-contrast design tokens."
+    id: '3',
+    title: 'Visual Identity System',
+    category: 'Branding',
+    type: 'image',
+    src: 'https://unsplash.com'
   }
 ];
