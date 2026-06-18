@@ -1,89 +1,55 @@
 'use client';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+
+import React from 'react';
+import { PROFILE_INFO } from '../data/constants';
 
 export default function Hero() {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".reveal-text", {
-        y: "40%",
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power4.out"
-      });
-      gsap.from(".stat-box", {
-        scale: 0.95,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: "power3.out",
-        delay: 0.5
-      });
-    }, heroRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={heroRef} id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[var(--color-background)] px-6 pt-32 pb-20">
-      {/* Dynamic Ambient Background Glows */}
-      <div className="absolute top-[-10%] left-[5%] w-[600px] h-[600px] rounded-full bg-[var(--color-accent-soft)] blur-[160px] pointer-events-none opacity-40 animate-pulse duration-[8000ms]" />
-      <div className="absolute bottom-[5%] right-[5%] w-[500px] h-[500px] rounded-full bg-teal-500/5 blur-[140px] pointer-events-none opacity-30" />
+    <section className="relative w-full max-w-5xl mx-auto pt-32 pb-20 px-6 flex flex-col items-center text-center z-10">
+      {/* Decorative Status Notification Tag */}
+      <span className="text-[10px] font-mono tracking-[0.2em] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full uppercase mb-6 animate-pulse">
+        Available for Remote Visual Ops & Development
+      </span>
 
-      {/* Main Content Area */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 flex-1 flex flex-col justify-center items-center">
-        <div className="overflow-hidden">
-          <span className="reveal-text inline-block px-4 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-soft)] text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--color-accent)]">
-            Creative Portfolio
-          </span>
-        </div>
+      {/* Main Professional Identification Heading */}
+      <h1 className="text-4xl sm:text-6xl font-extrabold text-neutral-100 tracking-tight leading-[1.15] max-w-3xl">
+        Crafting Visual Stories. <br />
+        <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-blue-500 bg-clip-text text-transparent">
+          Building Digital Assets.
+        </span>
+      </h1>
 
-        {/* Clean Fixed Typography Stack */}
-        <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white leading-[1.05] overflow-hidden max-w-4xl">
-          <span className="reveal-text block">
-            MURALI R<span className="text-[var(--color-accent)]">.</span>
-          </span>
-          <span className="reveal-text block text-transparent bg-clip-text bg-gradient-to-r from-slate-400 via-slate-100 to-slate-500 font-medium text-3xl md:text-5xl mt-4 tracking-normal">
-            Editor & Visual Designer
-          </span>
-        </h1>
+      {/* Profile Explicit Context Injection */}
+      <p className="text-base sm:text-lg text-neutral-400 mt-6 max-w-2xl leading-relaxed">
+        I am <strong className="text-neutral-200 font-semibold">{PROFILE_INFO.name}</strong>, a senior <span className="text-emerald-400">{PROFILE_INFO.title}</span> based in {PROFILE_INFO.location}. With over a decade of hands-on experience, I bridge the gap between high-end digital design and multi-platform interactive application loops.
+      </p>
 
-        <p className="reveal-text max-w-2xl mx-auto text-[var(--color-muted)] text-sm md:text-base font-normal leading-relaxed tracking-wide">
-          Crafting high-impact cinematic stories and tailored brand identities for ambitious global systems.
-        </p>
-
-        {/* Unified Button Row Architecture */}
-        <div className="reveal-text flex flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto">
-          <a href="#projects" className="btn-primary !text-[11px] !px-8 !py-3.5 min-w-[160px]">
-            Explore Work
-          </a>
-          <a href="#contact" className="btn-secondary !text-[11px] !px-8 !py-3.5 min-w-[160px]">
-            Get In Touch
-          </a>
-        </div>
+      {/* Action Trigger Elements Panel */}
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="#contact"
+          className="bg-emerald-500 hover:bg-emerald-600 text-neutral-950 font-bold text-xs px-8 py-3.5 rounded-lg tracking-widest transition-all uppercase shadow-lg shadow-emerald-500/10"
+        >
+          Initiate Project Brief
+        </a>
+        <a
+          href="#portfolio"
+          className="bg-[#12131a] hover:bg-[#161822] text-neutral-300 font-semibold text-xs px-8 py-3.5 rounded-lg tracking-widest transition-all uppercase border border-neutral-800 hover:border-neutral-700"
+        >
+          Review Showcases
+        </a>
       </div>
 
-      {/* Re-engineered Metric Grid */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
-        {[
-          { metric: "12+", title: "Years of Design" },
-          { metric: "120+", title: "Projects Shipped" },
-          { metric: "40+", title: "Clients Worldwide" }
-        ].map((item, idx) => (
-          <div 
-            key={idx} 
-            className="stat-box glass-card !bg-[var(--color-surface)]/40 border border-white/5 p-8 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-[var(--color-accent)]/30 group"
-          >
-            <span className="text-4xl md:text-5xl font-black tracking-tighter text-white group-hover:text-[var(--color-accent)] transition-colors duration-300">
-              {item.metric}
+      {/* Fast Tech Stack Vector Anchors */}
+      <div className="mt-20 w-full border-t border-neutral-900 pt-10">
+        <p className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase mb-4">Core Structural Toolchain</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-medium text-neutral-400">
+          {PROFILE_INFO.skills.tools.slice(0, 4).map((tool, i) => (
+            <span key={i} className="hover:text-neutral-200 transition-colors cursor-default">
+              {tool}
             </span>
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-muted)] font-bold mt-3 block">
-              {item.title}
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
