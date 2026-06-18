@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { TIMELINE_HISTORY } from '../data/constants';
+import { TIMELINE_HISTORY } from '@/data/constants';
 
 export default function Timeline() {
   return (
