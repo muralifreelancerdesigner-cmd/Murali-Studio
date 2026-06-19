@@ -1,5 +1,4 @@
 import React from 'react';
-import './globals.css'; // ✨ THE DEFINITIVE FIX: This forces the build to bundle all Tailwind rules directly onto your home grid view!
 import Hero from '@/components/Hero';
 import Expertise from '@/components/Expertise';
 import Portfolio from '@/components/Portfolio';
