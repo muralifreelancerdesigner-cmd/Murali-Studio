@@ -1,7 +1,49 @@
 'use client';
 
 import React from 'react';
-import { TIMELINE_HISTORY } from '../data/constants';
+
+// Static timeline history definition directly accessible by the rendering layer
+const INLINE_TIMELINE_HISTORY = [
+  {
+    year: "2025",
+    role: "Graphic Designer & Video Editor",
+    company: "Chettinad Hospital and Research Institute",
+    location: "Chennai, India",
+    details: [
+      "Conceptualized high-converting social media campaigns and digital event collaterals.",
+      "Produced and edited engaging short-form promotional videos optimized for healthcare marketing channels."
+    ]
+  },
+  {
+    year: "2022 - 2024",
+    role: "Graphic Designer & Video Editor",
+    company: "Teak Home",
+    location: "Coimbatore, India",
+    details: [
+      "Engineered daily high-performing print catalogues, social graphics, and marketing materials.",
+      "Scripted and finalized product showcase video campaigns across YouTube, Instagram, and Facebook."
+    ]
+  },
+  {
+    year: "2016 - 2022",
+    role: "Video Editor & Designer",
+    company: "Local Broadcast Channels",
+    location: "Coimbatore, India",
+    details: [
+      "Designed and finalized high-impact commercial television advertisement videos for regional broadcast.",
+      "Developed and optimized long-form digital content assets to accelerate subscriber growth metrics."
+    ]
+  },
+  {
+    year: "2013 - 2016",
+    role: "Application Developer",
+    company: "Pamz3d Designs India Pvt Ltd",
+    location: "Coimbatore, India",
+    details: [
+      "Programmed and developed interactive cross-platform applications designed to visualize advanced 3D architectural models."
+    ]
+  }
+];
 
 export default function Timeline() {
   return (
@@ -14,7 +56,7 @@ export default function Timeline() {
       </div>
 
       <div className="relative border-l border-neutral-800/80 ml-4 md:ml-32 space-y-12">
-        {TIMELINE_HISTORY.map((item, index) => (
+        {INLINE_TIMELINE_HISTORY.map((item, index) => (
           <div key={index} className="relative pl-6 md:pl-8 group">
             <div className="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-neutral-800 border border-neutral-700 group-hover:bg-emerald-500 group-hover:border-emerald-400 transition-all duration-300" />
             
