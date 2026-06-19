@@ -1,6 +1,8 @@
 import React from 'react';
-import './globals.css'; // 🌟 CRUCIAL: This links all your Tailwind styles!
-import MouseGlow from '@/components/MouseGlow';
+import MouseGlow from '../components/MouseGlow';
+
+// 🌟 THE FIX: Strict relative routing mapping ensures Linux compilation layers find and inject Tailwind styles perfectly!
+import '../app/globals.css'; 
 
 export const metadata = {
   title: 'Murali R. | Portfolio',
@@ -14,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="antialiased bg-[#030712] text-gray-100">
+      <body className="antialiased bg-[#030712] text-gray-100 min-h-screen relative overflow-x-hidden">
         <MouseGlow />
         {children}
       </body>
