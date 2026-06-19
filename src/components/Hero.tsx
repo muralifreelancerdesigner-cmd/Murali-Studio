@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { PROFILE_INFO } from '@/data/constants';
+import { PROFILE_INFO } from '../data/constants';
 
 export default function Hero() {
   return (
