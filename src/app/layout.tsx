@@ -1,8 +1,8 @@
 import React from 'react';
 import MouseGlow from '../components/MouseGlow';
 
-// 🌟 THE FIX: Strict relative routing mapping ensures Linux compilation layers find and inject Tailwind styles perfectly!
-import '../app/globals.css'; 
+// 🌟 Ensure this exact line is at the very top!
+import './globals.css'; 
 
 export const metadata = {
   title: 'Murali R. | Portfolio',
