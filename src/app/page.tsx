@@ -30,9 +30,9 @@ export default function Home() {
         <PriceCalculator />
       </ScrollReveal>
 
-      <ScrollReveal>
+      {/* <ScrollReveal>
         <Timeline />
-      </ScrollReveal>
+      </ScrollReveal> */}
 
       <ScrollReveal>
         <Contact />
