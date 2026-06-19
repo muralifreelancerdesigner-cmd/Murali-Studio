@@ -1,8 +1,7 @@
 import React from 'react';
+import './globals.css'; // 🌟 THE FIX: Strict internal relative routing fixes the compiling engine error!
 import MouseGlow from '../components/MouseGlow';
 
-// 🌟 Ensure this exact line is at the very top!
-import './globals.css'; 
 
 export const metadata = {
   title: 'Murali R. | Portfolio',
